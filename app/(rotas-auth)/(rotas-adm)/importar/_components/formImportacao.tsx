@@ -1,26 +1,27 @@
 /** @format */
 
 'use client';
+
 import React, { useState } from 'react';
 import { FormGeneric } from '@/components/ui/formGeneric';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils'; // Função utilitária para combinar classes Tailwind
 
 import {
     Select,
     SelectContent,
-    SelectGroup, // Se você for agrupar opções
+    SelectGroup,
     SelectItem,
-    SelectLabel, // Se for usar labels em grupos
+    SelectLabel,
     SelectTrigger,
     SelectValue,
-    SelectSeparator, // Se for usar separadores
+    SelectSeparator,
 } from '@/components/ui/select';
 
 import { Input } from '@/components/ui/input';
 
 export function FormImportacao() {
     const [selectedFileType, setSelectedFileType] = useState('');
-
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,66 +34,86 @@ export function FormImportacao() {
 
     const handleCancel = () => {
         console.log('Ação de Cancelar');
+        // Adicione sua lógica de cancelamento aqui
     };
 
     const handleSave = () => {
         console.log('Ação de Salvar');
-
+        // Adicione sua lógica de salvamento aqui
         if (selectedFileType && selectedFile) {
-            console.log(`Upload: ${selectedFileType}, Arquivo: ${selectedFile.name}`);
+            console.log(`Tipo de arquivo selecionado: ${selectedFileType}, Arquivo: ${selectedFile.name}`);
+            // Lógica para enviar o arquivo e o tipo para o backend
+            alert('Importação simulada realizada com sucesso!'); // Feedback temporário
         } else {
             alert('Por favor, selecione o tipo de arquivo e carregue um arquivo.');
         }
     };
 
+    // Classes de borda e efeito de foco/invalidação, consolidadas para reutilização
+    const commonBorderFocusStyles =
+        "border-input focus-visible:border-ring focus-visible:ring-ring/50 " +
+        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border";
+
     return (
         <FormGeneric
-            className="w-[800px] h-[500px] flex flex-col border-1 border-input  p-4 gap-4 rounded-2xl shadow-xs" // Adicione padding e gap para melhor visualização
+            className={cn(
+                "w-full max-w-3xl",
+                "min-h-[400px]",
+                "flex flex-col p-6 gap-6",
+                "bg-white rounded-xl shadow-lg",
+                commonBorderFocusStyles,
+                "mt-8"
+            )}
         >
-            <label className="text-lg font-semibold mb-2">Tipo de arquivo</label>
-
+            <label htmlFor="select-file-type" className="text-lg font-semibold mb-2">Tipo de arquivo</label>
             <Select
                 value={selectedFileType}
                 onValueChange={setSelectedFileType}
             >
-                <SelectTrigger className="w-full h-[50px] bg-white border border-gray-300 rounded-md px-3 py-2"> {/* O "campo" visível do select */}
-                    {/* O texto que aparece dentro do campo Select quando nada está selecionado */}
+                <SelectTrigger
+                    id="select-file-type"
+                    className={cn(
+                        "w-full h-[50px] bg-white border border-gray-300 rounded-md px-3 py-2",
+                        "placeholder:text-muted-foreground",
+                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                        "disabled:cursor-not-allowed disabled:opacity-50"
+                    )}
+                >
                     <SelectValue placeholder="Selecione o tipo de distribuição" />
                 </SelectTrigger>
-
-                <SelectContent> {/* O conteúdo do dropdown que aparece */}
+                <SelectContent>
                     <SelectGroup>
                         <SelectLabel>Tipos de Distribuição</SelectLabel>
-                        {/* Se "Distribuição" é uma opção real, e não apenas um placeholder */}
                         <SelectItem value="distribuicao">Distribuição</SelectItem>
+                        <SelectItem value="tipo_a">Tipo A</SelectItem>
+                        <SelectItem value="tipo_b">Tipo B B</SelectItem>
                     </SelectGroup>
                     <SelectSeparator />
                     <SelectItem value="outros">Outros</SelectItem>
                 </SelectContent>
             </Select>
 
-
-            <label htmlFor="file-upload" className="text-lg font-semibold mb-2 mt-4">Arquivo</label>
+            <label htmlFor="file-upload" className="text-lg font-semibold mb-2 mt-4">Carregar Arquivo</label>
             <Input
                 id="file-upload"
-                className="w-full h-[50px] bg-white border border-gray-300 rounded-md px-3 py-2" // Adicione classes de estilização
+                className={cn(
+                    "w-full h-[50px] bg-white border border-gray-300 rounded-md px-3 py-2",
+                )}
                 type="file"
-                placeholder="Upload"
                 onChange={handleFileChange}
             />
-            {selectedFile && <p className="text-sm text-gray-500">Arquivo selecionado: {selectedFile.name}</p>}
-
+            {selectedFile && <p className="text-sm text-muted-foreground">Arquivo selecionado: {selectedFile.name}</p>}
 
             <div className="flex justify-end gap-2 mt-auto">
                 <Button
                     variant={'destructive'}
-                    className="rounded-sm gap-1 w-[90px] h-[35px]"
+                    className="rounded-md px-4 py-2 h-auto"
                     onClick={handleCancel}
                 >
                     Cancelar
                 </Button>
                 <Button
-                    className="rounded-sm gap-1 w-[90px] h-[35px]"
+                    className="rounded-md px-4 py-2 h-auto"
                     onClick={handleSave}
                 >
                     Salvar
