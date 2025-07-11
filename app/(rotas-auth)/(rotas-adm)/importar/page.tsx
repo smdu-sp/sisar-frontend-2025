@@ -1,7 +1,13 @@
 /** @format */
 
 import React from 'react';
+import { FormImportacao } from './_components/formImportacao';
 
 export default function ImportarPage() {
-	return <div>ImportarPage</div>;
+	return (
+		<>
+			<h2 className='text-xl md:text-4xl font-bold'>Importar</h2>
+			<FormImportacao />
+		</>
+	)
 }
