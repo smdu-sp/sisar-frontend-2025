@@ -39,10 +39,9 @@ export function FormImportacao() {
 
     const handleSave = () => {
         console.log('Ação de Salvar');
-        // Adicione sua lógica de salvamento aqui
+        // Adicione a lógica de salvamento aqui
         if (selectedFileType && selectedFile) {
             console.log(`Tipo de arquivo selecionado: ${selectedFileType}, Arquivo: ${selectedFile.name}`);
-            // Lógica para enviar o arquivo e o tipo para o backend
             alert('Importação simulada realizada com sucesso!'); // Feedback temporário
         } else {
             alert('Por favor, selecione o tipo de arquivo e carregue um arquivo.');
@@ -104,7 +103,7 @@ export function FormImportacao() {
             />
             {selectedFile && <p className="text-sm text-muted-foreground">Arquivo selecionado: {selectedFile.name}</p>}
 
-            <div className="flex justify-end gap-2 mt-auto">
+            <div className="flex justify-center gap-2 mt-auto sm:justify-end">
                 <Button
                     variant={'destructive'}
                     className="rounded-md px-4 py-2 h-auto"
