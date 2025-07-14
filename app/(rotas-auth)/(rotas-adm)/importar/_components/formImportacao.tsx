@@ -84,8 +84,8 @@ export function FormImportacao() {
                     <SelectGroup>
                         <SelectLabel>Tipos de Distribuição</SelectLabel>
                         <SelectItem value="distribuicao">Distribuição</SelectItem>
-                        <SelectItem value="tipo_a">Tipo A</SelectItem>
-                        <SelectItem value="tipo_b">Tipo B B</SelectItem>
+
+
                     </SelectGroup>
                     <SelectSeparator />
                     <SelectItem value="outros">Outros</SelectItem>
