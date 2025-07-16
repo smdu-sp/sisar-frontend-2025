@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { RotateCw } from 'lucide-react';
 import { X } from 'lucide-react';
@@ -19,6 +19,9 @@ import {
 } from '@/components/ui/select';
 
 export function MenuUnidades() {
+
+    const [status, setStatus] = useState('')
+
     return (
         <div className='w-full h-auto py-2 flex flex-col items-center justify-start gap-2 px-4 sm:flex-row sm:justify-start sm:h-[60px]'>
             <div className='flex isolate -space-x-px'>
@@ -41,7 +44,10 @@ export function MenuUnidades() {
                     <X size={18} />
                 </Button>
             </div>
-            <Select>
+            <Select
+                value={status}
+                onValueChange={setStatus}
+            >
                 <SelectTrigger
                     id="select-file-type"
                     className={cn(
