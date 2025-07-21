@@ -85,6 +85,12 @@ export const tipos_subprefeituras = [
   { value: 'inativos', label: 'Inativos' },
 ]
 
+export const tipos_alvaras = [
+  { value: 'ativos', label: 'Ativos' },
+  { value: 'inativos', label: 'Inativos' },
+]
+
+
 export function verificaData(dataInicio: string, dataFim: string): [Date, Date] {
   let inicio: Date, fim: Date;
   if (!dataInicio) inicio = new Date();

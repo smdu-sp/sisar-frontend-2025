@@ -8,7 +8,6 @@ import * as unidades from '@/services/unidades';
 import { Suspense } from 'react';
 import { IPaginadoUnidades, IUnidades } from '@/types/unidades';
 import { tipos_unidades } from '@/lib/utils';
-import { columns } from "../../_components/columns"
 import { unidadeColumns } from './_components/unidadeColumns';
 
 export default async function UnidadesSuspense({
