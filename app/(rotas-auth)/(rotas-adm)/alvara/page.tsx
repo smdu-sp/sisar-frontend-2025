@@ -68,6 +68,9 @@ export default async function AlvaraPage({
 				/>
 
 				<DataTable columns={AlvarasColumns} data={dados || []} />
+				{dados && dados.length > 0 && (
+					<Pagination total={+total} pagina={+pagina} limite={+limite} />
+				)}
 			</div>
 
 		</div>

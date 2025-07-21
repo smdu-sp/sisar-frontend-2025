@@ -7,6 +7,7 @@ import { SubprefeituraColumns } from './_components/subprefeturaColuns';
 import { IPaginadoSubprefeituras, ISubprefeitura } from '@/types/subprefeituras';
 import * as subprefeitura from "../../../../services/subprefeituras";
 import { tipos_subprefeituras } from '@/lib/utils';
+import Pagination from '@/components/pagination';
 
 import React from 'react';
 
@@ -64,6 +65,9 @@ export default async function SubprefeituraPage({
 				/>
 
 				<DataTable columns={SubprefeituraColumns} data={dados || []} />
+				{dados && dados.length > 0 && (
+					<Pagination total={+total} pagina={+pagina} limite={+limite} />
+				)}
 			</div>
 		</div>
 	)
