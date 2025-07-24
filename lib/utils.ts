@@ -90,6 +90,17 @@ export const tipos_alvaras = [
   { value: 'inativos', label: 'Inativos' },
 ]
 
+export const tipos_relatorios = [
+  { value: 'ar-quantitativo', label: 'Aprova Rápido - Status e Resumo Quantitativo' },
+  { value: 'rr-quantitativo', label: 'Requalifica Rápido - Status e Resumo Quantitativo' },
+  { value: 'ar-progressao-mensal', label: 'Aprova Rápido - Gráfico de Progressão Mensal' },
+  { value: 'ar-gabinete-prefeito', label: 'Aprova Rápido - Controle Gabinete Prefeito' }
+]
+
+export const tipos_extensao_arquivo = [
+  { value: 'PDF', label: 'PDF' },
+  { value: 'XLSX', label: 'XLSX (Excel)' }
+]
 
 export function verificaData(dataInicio: string, dataFim: string): [Date, Date] {
   let inicio: Date, fim: Date;

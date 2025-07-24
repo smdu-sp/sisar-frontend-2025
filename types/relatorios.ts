@@ -80,3 +80,9 @@ export interface IRelatorioARQuantitativo {
         total_parcial: number;
     };
 }
+
+export interface IRelatorioARProgressaoMensal {
+    ano: number;
+    mes: number[];
+    acc: number[];
+}
