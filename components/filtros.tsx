@@ -63,6 +63,7 @@ interface CampoDataRange {
 
 interface FiltrosProps {
 	camposFiltraveis?: CampoFiltravel[];
+	eventButton?: () => void;
 }
 
 export function Filtros({ camposFiltraveis }: FiltrosProps) {
@@ -74,9 +75,9 @@ export function Filtros({ camposFiltraveis }: FiltrosProps) {
 	const [filtros, setFiltros] = useState<{ [key: string]: string }>(
 		camposFiltraveis
 			? camposFiltraveis.reduce(
-					(acc, item) => ({ ...acc, [item.tag]: item.default || '' }),
-					{},
-			  )
+				(acc, item) => ({ ...acc, [item.tag]: item.default || '' }),
+				{},
+			)
 			: {},
 	);
 
@@ -105,9 +106,9 @@ export function Filtros({ camposFiltraveis }: FiltrosProps) {
 		setFiltros(
 			camposFiltraveis
 				? camposFiltraveis.reduce(
-						(acc, item) => ({ ...acc, [item.tag]: '' }),
-						{},
-				  )
+					(acc, item) => ({ ...acc, [item.tag]: '' }),
+					{},
+				)
 				: {},
 		);
 		router.push(pathname);

@@ -8,13 +8,14 @@ import { format } from 'date-fns';
 import { TabelaProgressaoARProtocoladas } from './_components/tabelas/tabelaArProtocoladas';
 import { verificaData, tipos_relatorios, tipos_extensao_arquivo } from '@/lib/utils';
 import { Filtros, TiposFiltros } from '@/components/filtros';
+import gerarRelatorio from '@/services/relatorios/ar-progressao-mensal/query-functions/gerarRelatorio';
 
 interface IRelatorioFiltrosState {
 	tipoRelatorio: string | null;
 	extensaoArquivo: string | null;
 	periodoString: string | null;
-	dataInicial: Date | null;
-	dataFinal: Date | null;
+	dataInicial: Date | string | null;
+	dataFinal: Date | string | null;
 }
 
 export default function RelatoriosPage() {
@@ -33,8 +34,8 @@ export default function RelatoriosPage() {
 		const extensaoArquivoParam = searchParams.get('extensao_arquivo');
 		const periodoParam = searchParams.get('periodo');
 
-		let dataInicioObj: Date | null = null;
-		let dataFimObj: Date | null = null;
+		let dataInicioObj: Date | string | null = null;
+		let dataFimObj: Date | string | null = null;
 
 		if (periodoParam) {
 
@@ -48,13 +49,35 @@ export default function RelatoriosPage() {
 			tipoRelatorio: tipoRelatorioParam,
 			extensaoArquivo: extensaoArquivoParam,
 			periodoString: periodoParam,
-			dataInicial: dataInicioObj,
-			dataFinal: dataFimObj,
+			dataInicial: dataInicioObj ? format(dataInicioObj, 'yyyy') : dataInicioObj,
+			dataFinal: dataFimObj ? format(dataFimObj, 'yyyy') : dataFimObj,
 		});
 
 	}, [searchParams]);
 
 	console.log('filtros aqui', filtrosAtuais);
+
+	useEffect(() => {
+		const fetchRelatorio = async () => {
+			if (filtrosAtuais.dataInicial && filtrosAtuais.dataFinal) {
+				try {
+					const accessToken = 'seu_token_aqui'; // Substitua pelo token real do login
+					const resultado = await gerarRelatorio({
+						anoInit: filtrosAtuais.dataInicial as string,
+						anoFinal: filtrosAtuais.dataFinal as string,
+						access_token: accessToken,
+					});
+					console.log('Resultado do relatório:', resultado);
+				} catch (error) {
+					console.error('Erro ao gerar relatório:', error);
+				}
+			} else {
+				console.log('Datas inicial e final são necessárias para gerar o relatório.');
+			}
+		};
+
+		fetchRelatorio();
+	}, [filtrosAtuais]);
 
 	useEffect(() => {
 
