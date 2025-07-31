@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { format } from 'date-fns';
+import { IListaARProgressaoMensal } from '@/types/relatorios';
 import { TabelaProgressaoARProtocoladas } from './_components/tabelas/tabelaArProtocoladas';
 import { verificaData, tipos_relatorios, tipos_extensao_arquivo } from '@/lib/utils';
 import { Filtros, TiposFiltros } from '@/components/filtros';
@@ -18,14 +19,6 @@ interface IRelatorioFiltrosState {
 	dataInicial: Date | string | null;
 	dataFinal: Date | string | null;
 }
-
-interface IListaARProgressaoMensal {
-	ano: number,
-	mes: string,
-	mensal: number,
-	acc: number
-}
-
 
 export default function RelatoriosPage() {
 	const [filtrosAtuais, setFiltrosAtuais] = useState<IRelatorioFiltrosState>({
@@ -51,7 +44,6 @@ export default function RelatoriosPage() {
 		let dataFimObj: Date | string | null = null;
 
 		if (periodoParam) {
-
 			const datasArray = periodoParam.split(',');
 			if (datasArray.length === 2 && datasArray[0] && datasArray[1]) {
 				[dataInicioObj, dataFimObj] = verificaData(datasArray[0], datasArray[1]);
@@ -102,19 +94,10 @@ export default function RelatoriosPage() {
 		fetchRelatorio();
 	}, [filtrosAtuais]);
 
-
-	const tipoRelatorioLabel = tipos_relatorios.find(
-		(tipo) => tipo.value === filtrosAtuais.tipoRelatorio
-	)?.label || 'Não especificado';
-
-	const extensaoArquivoLabel = tipos_extensao_arquivo.find(
-		(ext) => ext.value === filtrosAtuais.extensaoArquivo
-	)?.label || 'Não especificada';
-
 	return (
 		<div className='w-full px-0 md:px-8 relative pb-20 md:pb-14 h-full md:container mx-auto'>
 			<h1 className='text-xl md:text-4xl font-bold'>Relatórios</h1>
-			<div className='grid grid-cols-1 max-w-sm mx-auto md:max-w-full gap-y-3 my-5 w-full'>
+			<div className='grid grid-cols-1 max-w-sm mx-auto md:max-w-full gap-y-3 my-5 w-full '>
 				<Filtros
 					camposFiltraveis={[
 						{
@@ -136,10 +119,20 @@ export default function RelatoriosPage() {
 						},
 					]}
 				/>
-				{
+				<div className='grid grid-cols-1 md:grid-cols-2 max-w-sm mx-auto md:max-w-full gap-y-3 my-5 w-full justify-around'>
 
-				}
-				<TabelaProgressaoARProtocoladas />
+					{
+						listaFormatada.map((item, index) => {
+							return (
+								<div key={index} className='mt-8 sm:-[350px] md:w-[700px] 3xl:w-[1050px]'>
+									<TabelaProgressaoARProtocoladas
+										lista={item}
+									/>
+								</div>
+							)
+						})
+					}
+				</div>
 			</div>
 		</div>
 	);

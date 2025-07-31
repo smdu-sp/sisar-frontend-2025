@@ -3,20 +3,19 @@
 
 
 import DataTable from "@/components/data-table";
-import { IRelatorioARProgressaoMensal } from "@/types/relatorios";
 import { ProgressaoMensalColumn } from "../colunas/progressaoMensalColumn";
+import { IListaARProgressaoMensal } from "@/types/relatorios";
 
 interface ITabelProgressaoARProtocoladas {
-    lista: IRelatorioARProgressaoMensal[];
-    columns: any[];
+    lista: IListaARProgressaoMensal[];
 
 }
 
-export function TabelaProgressaoARProtocoladas() {
+export function TabelaProgressaoARProtocoladas({ lista }: ITabelProgressaoARProtocoladas) {
     return (
         <DataTable
             columns={ProgressaoMensalColumn}
-            data={[]}
+            data={lista}
         />
     );
 

@@ -86,3 +86,10 @@ export interface IRelatorioARProgressaoMensal {
     mes: number[];
     acc: number[];
 }
+
+export interface IListaARProgressaoMensal {
+    ano: number,
+    mes: string,
+    mensal: number,
+    acc: number
+}

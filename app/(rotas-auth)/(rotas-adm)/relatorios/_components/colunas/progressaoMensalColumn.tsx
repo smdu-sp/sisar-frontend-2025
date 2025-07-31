@@ -5,8 +5,10 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { format } from 'date-fns';
 import { IRelatorioARProgressaoMensal } from '@/types/relatorios';
+import { IListaARProgressaoMensal } from '@/types/relatorios';
 
-export const ProgressaoMensalColumn: ColumnDef<IRelatorioARProgressaoMensal>[] = [
+
+export const ProgressaoMensalColumn: ColumnDef<IListaARProgressaoMensal>[] = [
     {
         accessorKey: 'ano',
         header: () => <p className='text-center'>Ano</p>,
@@ -30,7 +32,7 @@ export const ProgressaoMensalColumn: ColumnDef<IRelatorioARProgressaoMensal>[] =
         header: () => <p className='text-left'>Mensal</p>,
         cell: ({ row }) => (
             <p className='flex text-left'>
-                {row.original.mes}
+                {row.original.mensal}
             </p>
         ),
     },
