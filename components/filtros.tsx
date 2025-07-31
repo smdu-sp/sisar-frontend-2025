@@ -63,7 +63,6 @@ interface CampoDataRange {
 
 interface FiltrosProps {
 	camposFiltraveis?: CampoFiltravel[];
-	eventButton?: () => void;
 }
 
 export function Filtros({ camposFiltraveis }: FiltrosProps) {

@@ -1,14 +1,15 @@
 /** @format */
 
 'use client';
-
 import React, { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { format } from 'date-fns';
 import { TabelaProgressaoARProtocoladas } from './_components/tabelas/tabelaArProtocoladas';
 import { verificaData, tipos_relatorios, tipos_extensao_arquivo } from '@/lib/utils';
 import { Filtros, TiposFiltros } from '@/components/filtros';
 import gerarRelatorio from '@/services/relatorios/ar-progressao-mensal/query-functions/gerarRelatorio';
+import formatadorListaArProgressaoMensal from './utils/formatadorArProgressao';
 
 interface IRelatorioFiltrosState {
 	tipoRelatorio: string | null;
@@ -17,6 +18,14 @@ interface IRelatorioFiltrosState {
 	dataInicial: Date | string | null;
 	dataFinal: Date | string | null;
 }
+
+interface IListaARProgressaoMensal {
+	ano: number,
+	mes: string,
+	mensal: number,
+	acc: number
+}
+
 
 export default function RelatoriosPage() {
 	const [filtrosAtuais, setFiltrosAtuais] = useState<IRelatorioFiltrosState>({
@@ -27,7 +36,11 @@ export default function RelatoriosPage() {
 		dataFinal: null,
 	});
 
+	const [lista, setLista] = useState([])
+
 	const searchParams = useSearchParams();
+	const { data: session, status } = useSession();
+
 
 	useEffect(() => {
 		const tipoRelatorioParam = searchParams.get('tipo_relatorio');
@@ -55,19 +68,29 @@ export default function RelatoriosPage() {
 
 	}, [searchParams]);
 
-	console.log('filtros aqui', filtrosAtuais);
+
+	let listaFormatada: IListaARProgressaoMensal[][];
+	try {
+		listaFormatada = formatadorListaArProgressaoMensal(lista);
+	} catch (error) {
+		console.error('Erro ao formatar a lista:', error);
+		listaFormatada = [];
+	}
+	console.log("1:lista formatada aqui", listaFormatada)
+
 
 	useEffect(() => {
 		const fetchRelatorio = async () => {
 			if (filtrosAtuais.dataInicial && filtrosAtuais.dataFinal) {
 				try {
-					const accessToken = 'seu_token_aqui'; // Substitua pelo token real do login
+					const accessToken = session?.access_token;
 					const resultado = await gerarRelatorio({
 						anoInit: filtrosAtuais.dataInicial as string,
 						anoFinal: filtrosAtuais.dataFinal as string,
 						access_token: accessToken,
+
 					});
-					console.log('Resultado do relatório:', resultado);
+					setLista(resultado.data)
 				} catch (error) {
 					console.error('Erro ao gerar relatório:', error);
 				}
@@ -79,15 +102,6 @@ export default function RelatoriosPage() {
 		fetchRelatorio();
 	}, [filtrosAtuais]);
 
-	useEffect(() => {
-
-		if (filtrosAtuais.tipoRelatorio) {
-			console.log('Disparando busca de dados com filtros:', filtrosAtuais);
-		} else {
-			console.log('Tipo de relatório obrigatório não selecionado. Aguardando...');
-		}
-
-	}, [filtrosAtuais]);
 
 	const tipoRelatorioLabel = tipos_relatorios.find(
 		(tipo) => tipo.value === filtrosAtuais.tipoRelatorio
@@ -122,6 +136,9 @@ export default function RelatoriosPage() {
 						},
 					]}
 				/>
+				{
+
+				}
 				<TabelaProgressaoARProtocoladas />
 			</div>
 		</div>
