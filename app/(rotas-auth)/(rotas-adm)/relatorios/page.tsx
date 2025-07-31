@@ -11,6 +11,8 @@ import { verificaData, tipos_relatorios, tipos_extensao_arquivo } from '@/lib/ut
 import { Filtros, TiposFiltros } from '@/components/filtros';
 import gerarRelatorio from '@/services/relatorios/ar-progressao-mensal/query-functions/gerarRelatorio';
 import formatadorListaArProgressaoMensal from './utils/formatadorArProgressao';
+import GraficoArProgressaoMensal from './_components/graficos/graficoaRProgressaoMensal';
+import { GraficoProgressaoMensal } from './_components/graficos/graficoaRProgressaoMensal';
 
 interface IRelatorioFiltrosState {
 	tipoRelatorio: string | null;
@@ -132,6 +134,10 @@ export default function RelatoriosPage() {
 							)
 						})
 					}
+
+					{/* <GraficoProgressaoMensal
+					dados={listaFormatada[1]}
+					/> */}
 				</div>
 			</div>
 		</div>
