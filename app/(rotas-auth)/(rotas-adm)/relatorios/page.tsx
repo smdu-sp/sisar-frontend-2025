@@ -5,22 +5,14 @@ import React, { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { format } from 'date-fns';
-import { IListaARProgressaoMensal } from '@/types/relatorios';
+import { IListaARProgressaoMensal, IRelatorioFiltrosState } from '@/types/relatorios';
 import { TabelaProgressaoARProtocoladas } from './_components/tabelas/tabelaArProtocoladas';
 import { verificaData, tipos_relatorios, tipos_extensao_arquivo } from '@/lib/utils';
 import { Filtros, TiposFiltros } from '@/components/filtros';
 import gerarRelatorio from '@/services/relatorios/ar-progressao-mensal/query-functions/gerarRelatorio';
 import formatadorListaArProgressaoMensal from './utils/formatadorArProgressao';
-import GraficoArProgressaoMensal from './_components/graficos/graficoaRProgressaoMensal';
-import { GraficoProgressaoMensal } from './_components/graficos/graficoaRProgressaoMensal';
+import TabelaDianmica from './_components/tabelaDinamica';
 
-interface IRelatorioFiltrosState {
-	tipoRelatorio: string | null;
-	extensaoArquivo: string | null;
-	periodoString: string | null;
-	dataInicial: Date | string | null;
-	dataFinal: Date | string | null;
-}
 
 export default function RelatoriosPage() {
 	const [filtrosAtuais, setFiltrosAtuais] = useState<IRelatorioFiltrosState>({
@@ -122,22 +114,11 @@ export default function RelatoriosPage() {
 					]}
 				/>
 				<div className='grid grid-cols-1 md:grid-cols-2 max-w-sm mx-auto md:max-w-full gap-y-3 my-5 w-full justify-around'>
+					<TabelaDianmica
+						lista={listaFormatada}
+						tipo={filtrosAtuais.tipoRelatorio}
+					/>
 
-					{
-						listaFormatada.map((item, index) => {
-							return (
-								<div key={index} className='mt-8 sm:-[350px] md:w-[700px] 3xl:w-[1050px]'>
-									<TabelaProgressaoARProtocoladas
-										lista={item}
-									/>
-								</div>
-							)
-						})
-					}
-
-					{/* <GraficoProgressaoMensal
-					dados={listaFormatada[1]}
-					/> */}
 				</div>
 			</div>
 		</div>
