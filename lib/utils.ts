@@ -105,6 +105,8 @@ export const tipos_extensao_arquivo = [
   { value: 'XLSX', label: 'XLSX (Excel)' }
 ]
 
+
+
 export function verificaData(dataInicio: string, dataFim: string): [Date, Date] {
   let inicio: Date, fim: Date;
   if (!dataInicio) inicio = new Date();
