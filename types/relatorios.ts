@@ -75,10 +75,10 @@ export interface IRelatorioFiltrosState {
     tipoRelatorio: string | null;
     extensaoArquivo: string | null;
     periodoString: string | null;
-    dataInicial: Date | string | null;
-    dataFinal: Date | string | null;
-    anoInicial: string | null | Date;
-    anoFinal: string | null | Date;
+    dataInicial: Date | string | null | undefined;
+    dataFinal: Date | string | null | undefined;
+    anoInicial: string | null | Date | undefined;
+    anoFinal: string | null | Date | undefined;
 }
 
 export interface IAdmissibilidadesAnalise {

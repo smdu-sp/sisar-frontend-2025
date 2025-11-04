@@ -9,8 +9,8 @@ import React, { useState, useEffect, useMemo } from "react"; // Importe useMemo
 import formatadorListaArProgressaoMensal from "../../utils/formatadorArProgressao";
 import { gerarRelatorio } from "@/services/relatorios/ar-progressao-mensal";
 interface ITabelProgressaoARProtocoladasProps {
-    dataInicial: null | string | Date;
-    dataFinal: null | string | Date;
+    dataInicial: null | string | Date | undefined;
+    dataFinal: null | string | Date | undefined;
     access_token?: string | undefined;
 }
 

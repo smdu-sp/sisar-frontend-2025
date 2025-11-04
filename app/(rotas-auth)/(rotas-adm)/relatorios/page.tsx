@@ -45,8 +45,8 @@ export default function RelatoriosPage() {
 		const extensaoArquivoParam = searchParams.get('extensao_arquivo');
 		const periodoParam = searchParams.get('periodo');
 
-		let dataInicioObj: Date | string | null = null;
-		let dataFimObj: Date | string | null = null;
+		let dataInicioObj: Date | string | null | undefined = null;
+		let dataFimObj: Date | string | null | undefined = null;
 
 		if (periodoParam) {
 			const datasArray = periodoParam.split(',');

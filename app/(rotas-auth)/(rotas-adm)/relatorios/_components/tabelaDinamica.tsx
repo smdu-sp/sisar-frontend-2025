@@ -15,10 +15,10 @@ interface IFiltrosDinamicos {
     tipoRelatorio: null | string;
     extensaoArquivo?: null | string;
     periodoString: string;
-    dataInicial: null | string | Date;
-    dataFinal: null | string | Date;
-    anoInicial: null | string | Date;
-    anoFinal: null | string | Date;
+    dataInicial: null | string | Date | undefined;
+    dataFinal: null | string | Date | undefined;
+    anoInicial: null | string | Date | undefined;
+    anoFinal: null | string | Date | undefined;
     access_token: string;
 }
 

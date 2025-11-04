@@ -3,8 +3,8 @@
  */
 
 interface IGerarRelatorio {
-    dataInicial: null | string | Date;
-    dataFinal: null | string | Date;
+    dataInicial: null | string | Date | undefined;
+    dataFinal: null | string | Date | undefined;
     access_token?: string;
 }
 

@@ -105,29 +105,79 @@ export const tipos_extensao_arquivo = [
   { value: 'XLSX', label: 'XLSX (Excel)' }
 ]
 
+export function detectarFormatoData(data: string): string | undefined | Date {
+  if (/^\d{2}-\d{2}-\d{4}$/.test(data)) return 'dd-mm-yyyy'
+  if (/^\d{4}$/.test(data)) return 'yyyy'
+  if (/^\d{2}-\d{4}$/.test(data)) return 'mm-yyyy'
+  return undefined
+}
 
-
-export function verificaData(dataInicio: string, dataFim: string): [Date, Date] {
-  let inicio: Date, fim: Date;
+export function verificaData(dataInicio: string, dataFim?: string) {
+  let inicio: Date;
+  let fim: Date | undefined;
   if (!dataInicio) inicio = new Date();
-  else {
+
+  const formatoDataInicio = detectarFormatoData(dataInicio);
+  const formatoDataFim = dataFim ? detectarFormatoData(dataFim) : undefined;
+
+  if (formatoDataInicio === 'dd-mm-yyyy') {
     const dataSeparada = dataInicio.split('-');
     inicio = new Date(
       +dataSeparada[2],
       +dataSeparada[1] - 1,
       +dataSeparada[0],
       0, 0, 0
-    )
+    );
+
+    if (dataFim) {
+      const dataFimSeparada = dataFim.split('-');
+      fim = new Date(
+        +dataFimSeparada[2],
+        +dataFimSeparada[1] - 1,
+        +dataFimSeparada[0],
+        23, 59, 59, 999
+      );
+    }
   }
-  if (!dataFim) fim = new Date();
-  else {
-    const dataSeparada = dataFim.split('-');
-    fim = new Date(
-      +dataSeparada[2],
-      +dataSeparada[1] - 1,
+
+  if (formatoDataInicio === 'mm-yyyy') {
+    const dataSeparada = dataInicio.split('-');
+    inicio = new Date(
       +dataSeparada[0],
-      23, 59, 59, 999
-    )
+      +dataSeparada[1] - 1,
+      1,
+      0, 0, 0
+    );
+
+    if (dataFim) {
+      const dataFimSeparada = dataFim.split('-');
+      fim = new Date(
+        +dataFimSeparada[0],
+        +dataFimSeparada[1] - 1,
+        1,
+        23, 59, 59, 999
+      );
+    }
   }
-  return [inicio, fim];
+
+  if (formatoDataInicio === 'yyyy') {
+    inicio = new Date(
+      +dataInicio,
+      0, 0, 0
+    );
+    if (dataFim) {
+      fim = new Date(
+        +dataFim,
+        11,
+        31,
+        23, 59, 59, 999
+      );
+    }
+  }
+
+  if (dataInicio && dataFim) {
+    return [inicio, fim]
+  } else {
+    return [inicio]
+  }
 }
